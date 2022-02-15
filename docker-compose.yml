@@ -13,7 +13,9 @@ networks:
 
 services:
   api:
-    image: reactioncommerce/reaction:3.8.0
+    #image: reactioncommerce/reaction:3.8.0
+    image: reactioncommerce/node-prod:12.14.1-v1
+    #image: reaction-custom
     depends_on:
       - mongo
     env_file:
@@ -23,6 +25,9 @@ services:
       reaction:
     ports:
       - "3000:3000"
+    volumes:
+      - .:/usr/local/src/app:cached
+      - api_node_modules:/usr/local/src/app/node_modules
 
   mongo:
     image: mongo:4.2.0
@@ -34,6 +39,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-db4:/data/db
+      - ./backup:/backup
 
 volumes:
   mongo-db4:
+  api_node_modules:
